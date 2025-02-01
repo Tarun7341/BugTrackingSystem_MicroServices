@@ -1,7 +1,6 @@
 package com.project.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.demo.dto.ProjectRequest;
 import com.project.demo.exception.ProjectNotFound;
 import com.project.demo.model.Project;
 import com.project.demo.service.ProjectService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -34,8 +36,8 @@ public class ProjectController {
 	}
 
 	@PostMapping("/addNew")
-	public String addProject(@RequestBody Project project) {
-		projectservice.addNew(project);
+	public String addProject(@RequestBody @Valid ProjectRequest projectRequest) {
+		projectservice.addNew(projectRequest);
 		return "Project Added Successfully";
 	}
 

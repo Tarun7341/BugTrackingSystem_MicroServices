@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.client.TicketClient;
+import com.project.demo.dto.ProjectRequest;
+import com.project.demo.dto.ProjectRequest;
 import com.project.demo.exception.ProjectNotFound;
 import com.project.demo.model.Project;
 import com.project.demo.repository.ProjectRepository;
@@ -55,9 +57,9 @@ public class ProjectServiceImpl implements ProjectService {
 		
 	}
 
-	@Override
-	public void addNew(Project project) {
-		System.out.print(project);
+
+	public void addNew(ProjectRequest projectRequest) {
+		Project project = Project.build(projectRequest.getId(),projectRequest.getName(), projectRequest.getDescription(), projectRequest.getUserId(),null);
 		projectrepository.save(project);
 
 	}

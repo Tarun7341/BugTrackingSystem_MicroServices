@@ -1,8 +1,8 @@
 package com.user.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.user.demo.dto.UserRequest;
 import com.user.demo.exception.UserNotFound;
 import com.user.demo.model.User;
 
@@ -12,7 +12,7 @@ public interface UserService {
 
 	public void update(Integer id,User user) throws UserNotFound;
 
-	public void addNew(User user);
+	public void addNew(UserRequest userRequest);
 
 	public User getOne(Integer id) throws UserNotFound;
 

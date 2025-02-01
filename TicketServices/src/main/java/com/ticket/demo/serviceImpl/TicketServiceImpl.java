@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ticket.demo.dto.TicketRequest;
 import com.ticket.demo.exception.TicketNotFound;
 import com.ticket.demo.model.Ticket;
 import com.ticket.demo.repository.TicketRepository;
@@ -73,9 +74,13 @@ public class TicketServiceImpl implements TicketService {
 
 	}
 
-	@Override
-	public void addNew(Ticket ticket) {
-
+	public void addNew(TicketRequest ticketRequest) {
+		Ticket ticket = Ticket.build(ticketRequest.getId(), 
+				ticketRequest.getTitle(), ticketRequest.getDescription(),
+				ticketRequest.getStatus(), ticketRequest.getPriority(),
+				ticketRequest.getType(), ticketRequest.getSeverity(), 
+				ticketRequest.getStepstoReproduce(), ticketRequest.getProjectId(), 
+				ticketRequest.getUserId());
 		ticketrepository.save(ticket);
 
 	}

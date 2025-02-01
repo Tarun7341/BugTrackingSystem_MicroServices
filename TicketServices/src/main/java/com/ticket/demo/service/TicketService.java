@@ -1,8 +1,8 @@
 package com.ticket.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.ticket.demo.dto.TicketRequest;
 import com.ticket.demo.exception.TicketNotFound;
 import com.ticket.demo.model.Ticket;
 
@@ -12,7 +12,7 @@ public interface TicketService {
 
 	public void update(Integer id,Ticket ticket) throws TicketNotFound;
 
-	public void addNew(Ticket ticket);
+	public void addNew(TicketRequest ticketRequest);
 
 	public Ticket getOne(Integer id) throws TicketNotFound;
 

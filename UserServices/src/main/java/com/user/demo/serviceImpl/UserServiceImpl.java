@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.user.demo.client.TicketClient;
+import com.user.demo.dto.UserRequest;
 import com.user.demo.exception.UserNotFound;
 import com.user.demo.model.User;
 import com.user.demo.repository.UserRepository;
@@ -70,7 +71,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addNew(User user) {
+	public void addNew(UserRequest userRequest) {
+		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(), userRequest.getEmail(), userRequest.getPhoneNumber(),userRequest.getRole(), null);
 		userrepository.save(user);
 
 	}
