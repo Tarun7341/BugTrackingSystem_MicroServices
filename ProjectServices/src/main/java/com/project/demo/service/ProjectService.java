@@ -19,5 +19,7 @@ public interface ProjectService {
 	public void delete(Integer id) throws ProjectNotFound;
 
 	List<Project> getProjectsByUserId(Integer userId);
+	
+	public List<Project> getTicketsOfProject();
 
 }

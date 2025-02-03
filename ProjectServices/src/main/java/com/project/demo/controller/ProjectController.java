@@ -29,6 +29,11 @@ public class ProjectController {
 	public List<Project> getAllProjects() {
 		return projectservice.getAll();
 	}
+	
+	@GetMapping("/getTickets")
+	public List<Project> getTickets(){
+		return projectservice.getTicketsOfProject();
+	}
 
 	@GetMapping("/getOne/{id}")
 	public Project getProjectById(@PathVariable Integer id) throws ProjectNotFound {

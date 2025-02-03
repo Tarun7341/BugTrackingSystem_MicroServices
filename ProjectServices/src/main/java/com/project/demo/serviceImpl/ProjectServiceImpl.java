@@ -23,9 +23,15 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	TicketClient ticketclient;
-
+	
+	
 	@Override
 	public List<Project> getAll() {
+		return projectrepository.findAll();
+	}
+	
+	
+	public List<Project> getTicketsOfProject() {
 		List<Project> pjlist = (List<Project>) projectrepository.findAll();
 
 		List<Project> newpjlist = pjlist.stream().map(pjt -> {
@@ -89,13 +95,7 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectrepository.findProjectsByUserId(userId);
 	}
 
-//	public List<Ticket> getTicketsByProject(Integer id){
-//		return projectrepository.getTicketsByProject(id);
-//	}
-//	
-//	public List<User> getMembersByProject(Integer id){
-//		return projectrepository.getMembersByProject(id);
-//	} 
-//	
+
+
 
 }
