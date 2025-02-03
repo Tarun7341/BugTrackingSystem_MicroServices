@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.user.demo.client.ProjectClient;
 import com.user.demo.client.TicketClient;
 import com.user.demo.dto.UserRequest;
 import com.user.demo.exception.UserNotFound;
@@ -22,9 +23,17 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	public TicketClient ticketclient;
+	
+	@Autowired
+	public ProjectClient projectclient;
+	
+	
+	public List<User> getAll(){
+		return userrepository.findAll();
+	}
 
 	@Override
-	public List<User> getAll() {
+	public List<User> getUserTickets() {
 
 		List<User> userlist = userrepository.findAll();
 
@@ -72,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addNew(UserRequest userRequest) {
-		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(), userRequest.getEmail(), userRequest.getPhoneNumber(),userRequest.getRole(), null);
+		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(), userRequest.getEmail(), userRequest.getPhoneNumber(),userRequest.getRole(), null,null);
 		userrepository.save(user);
 
 	}
@@ -94,6 +103,19 @@ public class UserServiceImpl implements UserService {
 			throw new UserNotFound("Ticket with ID "+id+" not found !!");
 		}
 
+	}
+	
+	@Override
+	public List<User> getUserProjects(){
+		
+		List<User> userlist = userrepository.findAll();
+
+		List<User> newuserlist = userlist.stream().map(ulist -> {
+			ulist.setProjects(projectclient.getProjectsOfUsers(ulist.getId()));
+			return ulist;
+		}).collect(Collectors.toList());
+		return newuserlist;
+		
 	}
 
 }

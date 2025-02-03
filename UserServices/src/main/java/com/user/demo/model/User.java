@@ -25,5 +25,7 @@ public class User {
 	private String role;
 
 	transient private List<Ticket> tickets;
+	
+	transient private List<Project> projects;
 
 }

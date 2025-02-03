@@ -32,12 +32,5 @@ public class Ticket {
 
 	private Integer userId;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="project_id")
-//	private Project project;
-//	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="assigned_to")
-//	private User assignee;
 
 }

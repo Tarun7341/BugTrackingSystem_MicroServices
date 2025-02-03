@@ -30,6 +30,17 @@ public class UserController {
 	public List<User> getAllUsers() {
 		return userservice.getAll();
 	}
+	
+	@GetMapping("/getProjects")
+	public List<User> getProjects(){
+		return userservice.getUserProjects();
+	}
+	
+	
+	@GetMapping("/getTickets")
+	public List<User> getTickets(){
+		return userservice.getUserTickets();
+	}
 
 	@GetMapping("/getOne/{id}")
 	public User getOneUser(@PathVariable Integer id) throws UserNotFound {

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.user.demo.model.Ticket;
-
-@FeignClient(url = "http://localhost:9092", value = "Ticket-Client")
+//@FeignClient(url = "http://localhost:9092", value = "Ticket-Client")
+@FeignClient(name="TICKET-SERVICE")
 public interface TicketClient {
 
 	@GetMapping("/api/tickets/projects/{Id}")

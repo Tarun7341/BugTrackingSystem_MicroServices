@@ -40,6 +40,8 @@ public class TicketController {
 		ticketservice.addNew(ticketRequest);
 		return "Ticket Added Successfully";
 	}
+	
+
 
 	@PutMapping("/update/{id}")
 	public String updateTicket(@PathVariable("id") Integer id,@RequestBody Ticket ticket) throws TicketNotFound {

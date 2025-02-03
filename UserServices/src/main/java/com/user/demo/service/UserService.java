@@ -17,4 +17,8 @@ public interface UserService {
 	public User getOne(Integer id) throws UserNotFound;
 
 	public void delete(Integer id)throws UserNotFound;
+	
+	public List<User> getUserProjects();
+	
+	public List<User> getUserTickets();
 }
