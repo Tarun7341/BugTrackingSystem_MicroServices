@@ -39,7 +39,7 @@ class BugTrackerSpringRestApplicationTests {
 
 	@BeforeEach
 	public void setup() {
-		user = User.build(1, "John", "Doe", "john.doe@example.com", "1234567890", "Developer", null, null);
+		user = User.build(1, "John", "Doe", "john.doe@example.com", "1234567890", "Developer","John@123", null, null);
 	}
 
 	@Test

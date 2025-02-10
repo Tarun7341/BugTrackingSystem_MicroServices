@@ -39,5 +39,9 @@ public class UserRequest {
 
     @NotBlank(message = "Role is mandatory")
     private String role;
+    
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$")
+    private String password;
+
 
 }

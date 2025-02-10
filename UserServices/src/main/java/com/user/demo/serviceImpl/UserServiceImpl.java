@@ -81,6 +81,10 @@ public class UserServiceImpl implements UserService {
 			if (updateUser.getRole() != null) {
 				existingUser.setRole(updateUser.getRole());
 			}
+			
+			if (updateUser.getPassword() != null) {
+				existingUser.setPassword(updateUser.getPassword());
+			}
 			userrepository.save(existingUser);
 		} else {
 			throw new UserNotFound("User with ID " + id + " not found !!");
@@ -92,7 +96,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addNew(UserRequest userRequest) {
 		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(),
-				userRequest.getEmail(), userRequest.getPhoneNumber(), userRequest.getRole(), null, null);
+				userRequest.getEmail(), userRequest.getPhoneNumber(), userRequest.getRole(),userRequest.getPassword(), null, null);
 		userrepository.save(user);
 
 	}
