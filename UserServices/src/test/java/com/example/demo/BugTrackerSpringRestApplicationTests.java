@@ -43,7 +43,7 @@ class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testGetOne() throws UserNotFound {
+	 void testGetOne() throws UserNotFound {
 		// Pass case
 		when(userRepository.findById(1)).thenReturn(Optional.of(user));
 		when(ticketClient.getTicketsOfUsers(1)).thenReturn(new ArrayList<>());
@@ -54,7 +54,7 @@ class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testGetOneUserNotFound() {
+	 void testGetOneUserNotFound() {
 		// Fail case
 		when(userRepository.findById(1)).thenReturn(Optional.empty());
 

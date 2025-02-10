@@ -15,23 +15,34 @@ import com.user.demo.model.User;
 import com.user.demo.repository.UserRepository;
 import com.user.demo.service.UserService;
 
+/*
+ * Author: THARUN A
+ * Description: Contains the business implementation for User Services
+ * Actions: Add, Update, Delete, List users, List user projects, List user tickets
+ */
+
+
 @Service
 public class UserServiceImpl implements UserService {
 
+	// Injecting the UserRepository dependency
 	@Autowired
 	public UserRepository userrepository;
 
+	// Injecting the TicketClient dependency
 	@Autowired
 	public TicketClient ticketclient;
-	
+
+	// Injecting the ProjectClient dependency
 	@Autowired
 	public ProjectClient projectclient;
-	
-	
-	public List<User> getAll(){
+
+	// Method to retrieve all users
+	public List<User> getAll() {
 		return userrepository.findAll();
 	}
 
+	// Method to retrieve tickets associated with users
 	@Override
 	public List<User> getUserTickets() {
 
@@ -44,70 +55,72 @@ public class UserServiceImpl implements UserService {
 		return newuserlist;
 	}
 
+	// Method to update an existing user
 	@Override
-	public void update(Integer id,User updateUser) throws UserNotFound {
-		Optional<User> optionalUser = userrepository.findById(id);
-		
-		if(optionalUser.isPresent()) {
-			User existingUser = optionalUser.get();
-			
-			if(updateUser.getFirstname()!=null) {
+	public void update(Integer id, User updateUser) throws UserNotFound {
+		User existingUser = userrepository.findById(id).orElse(null);
+
+		if (existingUser != null) {
+
+			if (updateUser.getFirstname() != null) {
 				existingUser.setFirstname(updateUser.getFirstname());
 			}
-			
-			if(updateUser.getLastname()!=null) {
+
+			if (updateUser.getLastname() != null) {
 				existingUser.setLastname(updateUser.getLastname());
 			}
-			
-			if(updateUser.getEmail()!=null) {
+
+			if (updateUser.getEmail() != null) {
 				existingUser.setEmail(updateUser.getEmail());
 			}
-			
-			if(updateUser.getPhoneNumber()!=null) {
+
+			if (updateUser.getPhoneNumber() != null) {
 				existingUser.setPhoneNumber(updateUser.getPhoneNumber());
 			}
-			
-			if(updateUser.getRole()!=null) {
+
+			if (updateUser.getRole() != null) {
 				existingUser.setRole(updateUser.getRole());
 			}
 			userrepository.save(existingUser);
+		} else {
+			throw new UserNotFound("User with ID " + id + " not found !!");
 		}
-		else {
-			throw new UserNotFound("User with ID "+id+" not found !!");
-		}
-		
 
 	}
 
+	// Method to add a new user
 	@Override
 	public void addNew(UserRequest userRequest) {
-		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(), userRequest.getEmail(), userRequest.getPhoneNumber(),userRequest.getRole(), null,null);
+		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(),
+				userRequest.getEmail(), userRequest.getPhoneNumber(), userRequest.getRole(), null, null);
 		userrepository.save(user);
 
 	}
 
+	// Method to retrieve a single user by their ID
 	@Override
 	public User getOne(Integer id) throws UserNotFound {
 
-		User user = userrepository.findById(id).orElseThrow(() -> new UserNotFound("User with ID "+id+" not found !!"));
-		user.setTickets(ticketclient.getTicketsOfUsers(user.getId()));
-		return user;
+		return userrepository.findById(id)
+				.orElseThrow(() -> new UserNotFound("User with ID " + id + " not found !!"));
+		
 	}
 
+	// Method to delete a user by their ID
 	@Override
 	public void delete(Integer id) throws UserNotFound {
 		if (userrepository.existsById(id)) {
 			userrepository.deleteById(id);
-		}
-		else {
-			throw new UserNotFound("Ticket with ID "+id+" not found !!");
+		} else {
+			throw new UserNotFound("Ticket with ID " + id + " not found !!");
 		}
 
 	}
-	
+
+	// Method to retrieve projects associated with users
 	@Override
-	public List<User> getUserProjects(){
-		
+	public List<User> getUserProjects() {
+
 		List<User> userlist = userrepository.findAll();
 
 		List<User> newuserlist = userlist.stream().map(ulist -> {
@@ -115,7 +128,7 @@ public class UserServiceImpl implements UserService {
 			return ulist;
 		}).collect(Collectors.toList());
 		return newuserlist;
-		
+
 	}
 
 }

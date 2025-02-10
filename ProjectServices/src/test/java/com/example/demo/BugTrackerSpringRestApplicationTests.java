@@ -24,7 +24,7 @@ import com.project.demo.serviceImpl.ProjectServiceImpl;
 
 @ExtendWith(MockitoExtension.class) // Enables Spring Test support
 @SpringBootTest(classes = BugTrackerSpringRestApplication.class) // Loads the full application context
-public class BugTrackerSpringRestApplicationTests {
+class BugTrackerSpringRestApplicationTests {
 
 	@InjectMocks
 	private ProjectServiceImpl projectService;

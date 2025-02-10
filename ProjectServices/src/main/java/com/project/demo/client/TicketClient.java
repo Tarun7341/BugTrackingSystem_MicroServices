@@ -12,7 +12,8 @@ import com.project.demo.model.Ticket;
 @FeignClient(name="TICKET-SERVICE")
 public interface TicketClient {
 
-	@GetMapping("/api/tickets/projects/{Id}")
-	List<Ticket> getTicketsOfProject(@PathVariable("Id") Integer Id);
+	// Endpoint to get tickets of a specific project by project ID
+	@GetMapping("/api/tickets/projects/{id}")
+	List<Ticket> getTicketsOfProject(@PathVariable Integer id);
 
 }

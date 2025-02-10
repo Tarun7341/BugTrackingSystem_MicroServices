@@ -15,22 +15,31 @@ import com.project.demo.model.Project;
 import com.project.demo.repository.ProjectRepository;
 import com.project.demo.service.ProjectService;
 
+/*
+ * Author: THARUN A
+ * Description: Contains the business implementation for Project Services
+ * Actions: Add, Update, Delete, List projects, List project tickets
+ */
+
+
 @Service
 public class ProjectServiceImpl implements ProjectService {
 
+    // Injecting the ProjectRepository dependency
 	@Autowired
 	private ProjectRepository projectrepository;
 
+	// Injecting the TicketClient dependency
 	@Autowired
 	TicketClient ticketclient;
 	
-	
+	// Method to retrieve all projects
 	@Override
 	public List<Project> getAll() {
 		return projectrepository.findAll();
 	}
 	
-	
+	 // Method to retrieve projects and their associated tickets
 	public List<Project> getTicketsOfProject() {
 		List<Project> pjlist = (List<Project>) projectrepository.findAll();
 
@@ -41,12 +50,16 @@ public class ProjectServiceImpl implements ProjectService {
 		return newpjlist;
 	}
 
+	// Method to update an existing project
 	@Override
 	public void Update(Integer id,Project updateProject) throws ProjectNotFound {
-		Optional<Project> optionalProject = projectrepository.findById(id);
+		Project existingProject = projectrepository.findById(id).orElse(null);
 		
-		if(optionalProject.isPresent()) {
-			Project existingProject = optionalProject.get();
+		if(existingProject!=null) {
+			
+			if (updateProject.getUserId() != null) {
+				existingProject.setUserId(updateProject.getUserId());
+			}
 			
 			if(updateProject.getName()!=null) {
 				existingProject.setName(updateProject.getName());
@@ -63,13 +76,14 @@ public class ProjectServiceImpl implements ProjectService {
 		
 	}
 
-
+	   // Method to add a new project
 	public void addNew(ProjectRequest projectRequest) {
 		Project project = Project.build(projectRequest.getId(),projectRequest.getName(), projectRequest.getDescription(), projectRequest.getUserId(),null);
 		projectrepository.save(project);
 
 	}
 
+	// Method to retrieve a single project by its ID
 	@Override
 	public Project getOne(Integer id) throws ProjectNotFound {
 		Project pjt = projectrepository.findById(id)
@@ -78,6 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
 		return pjt;
 	}
 
+	// Method to delete a project by its ID
 	@Override
 	public void delete(Integer id) throws ProjectNotFound{
 		if(projectrepository.existsById(id)) {
@@ -89,6 +104,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	}
 
+	// Method to retrieve projects by user ID
 	@Override
 	public List<Project> getProjectsByUserId(Integer userId) {
 

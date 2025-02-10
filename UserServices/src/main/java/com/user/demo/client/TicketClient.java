@@ -11,10 +11,8 @@ import com.user.demo.model.Ticket;
 @FeignClient(name="TICKET-SERVICE")
 public interface TicketClient {
 
-	@GetMapping("/api/tickets/projects/{Id}")
-	List<Ticket> getTicketsOfProject(@PathVariable Integer Id);
-
-	@GetMapping("/api/tickets/users/{Id}")
-	List<Ticket> getTicketsOfUsers(@PathVariable Integer Id);
+	// Endpoint to get tickets of a specific user by user ID
+	@GetMapping("/api/tickets/users/{id}")
+	List<Ticket> getTicketsOfUsers(@PathVariable Integer id);
 
 }

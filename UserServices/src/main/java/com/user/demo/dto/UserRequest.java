@@ -34,7 +34,7 @@ public class UserRequest {
     private String email;
 
     @NotBlank(message = "Phone number is mandatory")
-    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Phone number should be valid")
+    @Pattern(regexp = "^\\+?[1-9]\\d{10}$", message = "Phone number should be valid")
     private String phoneNumber;
 
     @NotBlank(message = "Role is mandatory")
