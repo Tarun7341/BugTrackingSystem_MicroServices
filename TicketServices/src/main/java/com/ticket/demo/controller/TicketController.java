@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticket.demo.dto.TicketRequest;
+import com.ticket.demo.exception.ResourceNotFound;
 import com.ticket.demo.exception.TicketNotFound;
 import com.ticket.demo.model.Ticket;
 import com.ticket.demo.service.TicketService;

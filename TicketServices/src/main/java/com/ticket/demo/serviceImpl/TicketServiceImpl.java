@@ -1,12 +1,14 @@
 package com.ticket.demo.serviceImpl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ticket.demo.client.ProjectClient;
+import com.ticket.demo.client.UserClient;
 import com.ticket.demo.dto.TicketRequest;
+import com.ticket.demo.exception.ResourceNotFound;
 import com.ticket.demo.exception.TicketNotFound;
 import com.ticket.demo.model.Project;
 import com.ticket.demo.model.Ticket;
@@ -28,6 +30,12 @@ public class TicketServiceImpl implements TicketService {
 	// Injecting the TicketRepository dependency
 	@Autowired
 	private TicketRepository ticketrepository;
+	
+	@Autowired
+	private UserClient userClient;
+	
+	@Autowired
+	private ProjectClient projectClient;
 
 	// Method to retrieve all tickets
 	@Override
@@ -38,7 +46,7 @@ public class TicketServiceImpl implements TicketService {
 	// Method to update an existing ticket
 	@Override
 	public void update(Integer id, Ticket updateTicket) throws TicketNotFound {
-		Ticket existingTicket = ticketrepository.findById(id).orElseThrow(null);
+		Ticket existingTicket = ticketrepository.findById(id).orElseThrow(()-> new TicketNotFound("Ticket with ID " + id + " not found !!"));
 		if (existingTicket != null) {
 
 			if (updateTicket.getDescription() != null) {
@@ -78,8 +86,6 @@ public class TicketServiceImpl implements TicketService {
 			}
 
 			ticketrepository.save(existingTicket);
-		} else {
-			throw new TicketNotFound("Ticket with ID " + id + " not found !!");
 		}
 
 	}
@@ -87,6 +93,23 @@ public class TicketServiceImpl implements TicketService {
 	// Method to add a new ticket
 	public void addNew(TicketRequest ticketRequest) {
 
+
+		try {
+        User user = userClient.getUserById(ticketRequest.getUserId());
+		}
+        catch (FeignException.NotFound e) {
+            throw new ResourceNotFound("User does not exist");
+        }
+
+        // Check if project exists
+		try {
+        Project project = projectClient.getProjectById(ticketRequest.getProjectId());
+		}
+        catch (FeignException.NotFound e) {
+            throw new ResourceNotFound("Project does not exist");
+        
+        }
+		
 		Ticket ticket = Ticket.build(ticketRequest.getId(), ticketRequest.getTitle(), ticketRequest.getDescription(),
 				ticketRequest.getStatus(), ticketRequest.getPriority(), ticketRequest.getType(),
 				ticketRequest.getSeverity(), ticketRequest.getStepstoReproduce(), ticketRequest.getProjectId(),

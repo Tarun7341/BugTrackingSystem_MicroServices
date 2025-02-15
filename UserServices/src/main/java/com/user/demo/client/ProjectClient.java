@@ -18,5 +18,8 @@ public interface ProjectClient {
 	@GetMapping("/api/projects/getProjectsByUserId/{id}")
 	List<Project> getProjectsOfUsers(@PathVariable Integer id);
 	
+	
+	
+	
 
 }

@@ -3,6 +3,7 @@ package com.ticket.demo.service;
 import java.util.List;
 
 import com.ticket.demo.dto.TicketRequest;
+import com.ticket.demo.exception.ResourceNotFound;
 import com.ticket.demo.exception.TicketNotFound;
 import com.ticket.demo.model.Ticket;
 

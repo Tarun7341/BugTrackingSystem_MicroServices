@@ -1,19 +1,22 @@
 package com.project.demo.serviceImpl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.demo.client.TicketClient;
-import com.project.demo.dto.ProjectRequest;
+import com.project.demo.client.UserClient;
 import com.project.demo.dto.ProjectRequest;
 import com.project.demo.exception.ProjectNotFound;
+import com.project.demo.exception.ResourceNotFound;
 import com.project.demo.model.Project;
+import com.project.demo.model.User;
 import com.project.demo.repository.ProjectRepository;
 import com.project.demo.service.ProjectService;
+
+import feign.FeignException;
 
 /*
  * Author: THARUN A
@@ -32,6 +35,9 @@ public class ProjectServiceImpl implements ProjectService {
 	// Injecting the TicketClient dependency
 	@Autowired
 	TicketClient ticketclient;
+	
+	@Autowired
+	UserClient userClient;
 	
 	// Method to retrieve all projects
 	@Override
@@ -78,6 +84,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 	   // Method to add a new project
 	public void addNew(ProjectRequest projectRequest) {
+		
+		try {
+			User user = userClient.getUserById(projectRequest.getUserId());
+		}
+		catch(FeignException.NotFound e) {
+			throw new ResourceNotFound("Cannot find User with Id: "+projectRequest.getUserId());
+		}
+		
 		Project project = Project.build(projectRequest.getId(),projectRequest.getName(), projectRequest.getDescription(), projectRequest.getUserId(),null);
 		projectrepository.save(project);
 

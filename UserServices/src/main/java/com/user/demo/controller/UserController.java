@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.user.demo.dto.UserCredentialsDto;
 import com.user.demo.dto.UserRequest;
+import com.user.demo.exception.InvalidCredentialsException;
 import com.user.demo.exception.UserNotFound;
 import com.user.demo.model.User;
 import com.user.demo.service.UserService;
@@ -86,4 +88,9 @@ public class UserController {
 		return "User Deleted Successfully";
 	}
 
+	//Endpoint to login a user
+	@PostMapping("/login")
+    public String loginUser(@RequestBody UserCredentialsDto user) throws InvalidCredentialsException, UserNotFound {
+    	return userservice.loginUser(user);
+    }
 }

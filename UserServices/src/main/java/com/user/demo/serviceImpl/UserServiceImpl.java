@@ -1,6 +1,7 @@
 package com.user.demo.serviceImpl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.user.demo.client.ProjectClient;
 import com.user.demo.client.TicketClient;
+import com.user.demo.dto.UserCredentialsDto;
 import com.user.demo.dto.UserRequest;
+import com.user.demo.exception.InvalidCredentialsException;
 import com.user.demo.exception.UserNotFound;
 import com.user.demo.model.User;
 import com.user.demo.repository.UserRepository;
@@ -133,6 +136,25 @@ public class UserServiceImpl implements UserService {
 		}).collect(Collectors.toList());
 		return newuserlist;
 
+	}
+	
+	
+	@Override
+	public String loginUser(UserCredentialsDto user) throws InvalidCredentialsException, UserNotFound {
+	    Optional<User> foundUser = userrepository.findByEmail(user.getEmail());
+	    
+	    if (!foundUser.isPresent()) {
+	        throw new UserNotFound("User Not found!!");
+	    }
+	    
+	    User existingUser = foundUser.get();
+	    
+	    // Added log to check if password matches
+	    if (!Objects.equals(user.getPassword(), existingUser.getPassword())) {
+	        throw new InvalidCredentialsException("Password is Incorrect!!");
+	    }
+	    
+	    return "User Logged In Successfully!!";
 	}
 
 }

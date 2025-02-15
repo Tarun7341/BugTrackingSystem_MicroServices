@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.project.demo.exception.ProjectNotFound;
+import com.project.demo.exception.ResourceNotFound;
 
 @RestControllerAdvice
 
@@ -19,7 +20,14 @@ public class GlobalExceptionHandler {
 	
     // Method to handle ProjectNotFound exceptions
 	@ExceptionHandler(ProjectNotFound.class)
-	ResponseEntity<String> handleResouceNotFound(ProjectNotFound ex){
+	ResponseEntity<String> handleProjetNotFound(ProjectNotFound ex){
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+		
+	}
+	
+	
+	@ExceptionHandler(ResourceNotFound.class)
+	ResponseEntity<String> handleResouceNotFound(ResourceNotFound ex){
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 		
 	}

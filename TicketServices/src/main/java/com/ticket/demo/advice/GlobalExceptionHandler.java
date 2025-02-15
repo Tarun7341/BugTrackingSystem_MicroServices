@@ -10,25 +10,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.ticket.demo.exception.ResourceNotFound;
 import com.ticket.demo.exception.TicketNotFound;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(TicketNotFound.class)
-	ResponseEntity<String> HandleResourceNotFound(TicketNotFound ex){
-		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	ResponseEntity<String> HandleTicketNotFound(TicketNotFound ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
-	
+
+
+
+	@ExceptionHandler(ResourceNotFound.class)
+	public ResponseEntity<String> handleResourceNotFound(ResourceNotFound ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+	}
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex){
-		
+	public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {
+
 		Map<String, String> errorMap = new HashMap<>();
-		ex.getBindingResult().getFieldErrors().forEach(error->{
+		ex.getBindingResult().getFieldErrors().forEach(error -> {
 			errorMap.put(error.getField(), error.getDefaultMessage());
 		});
 		return errorMap;
-		
-	} 
+
+	}
 
 }

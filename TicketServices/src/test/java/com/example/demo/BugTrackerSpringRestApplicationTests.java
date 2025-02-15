@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ticket.demo.BugTrackerSpringRestApplication;
 import com.ticket.demo.dto.TicketRequest;
+import com.ticket.demo.exception.ResourceNotFound;
 import com.ticket.demo.exception.TicketNotFound;
 import com.ticket.demo.model.Ticket;
 import com.ticket.demo.repository.TicketRepository;
@@ -97,7 +98,7 @@ class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testAddNew() {
+	public void testAddNew()  {
 		ticketService.addNew(ticketRequest);
 
 		verify(ticketRepository, times(1)).save(any(Ticket.class));
