@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.user.demo.exception.InvalidCredentialsException;
-import com.user.demo.exception.UserNotFound;
+import com.user.demo.exception.UserNotFoundException;
 
 @RestControllerAdvice
 @Order(2)
 public class GlobalExceptionHandler {
 	
-	@ExceptionHandler(UserNotFound.class)
-	ResponseEntity<String> handleResourceNotFoundException(UserNotFound ex){
+	@ExceptionHandler(UserNotFoundException.class)
+	ResponseEntity<String> handleResourceNotFoundException(UserNotFoundException ex){
 		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 	

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticket.demo.dto.TicketRequest;
-import com.ticket.demo.exception.ResourceNotFound;
-import com.ticket.demo.exception.TicketNotFound;
-import com.ticket.demo.model.Ticket;
+import com.ticket.demo.entity.Ticket;
+import com.ticket.demo.exception.ResourceNotFoundException;
+import com.ticket.demo.exception.TicketNotFoundException;
 import com.ticket.demo.service.TicketService;
 
 import jakarta.validation.Valid;
@@ -47,7 +47,7 @@ public class TicketController {
 	
 	// Endpoint to get a single ticket by its ID
 	@GetMapping("/getOne/{id}")
-	public Ticket getOne(@PathVariable Integer id) throws TicketNotFound {
+	public Ticket getOne(@PathVariable Integer id) throws TicketNotFoundException {
 		return ticketservice.getOne(id);
 	}
 
@@ -61,14 +61,14 @@ public class TicketController {
 
 	// Endpoint to update an existing ticket
 	@PutMapping("/update/{id}")
-	public String updateTicket(@PathVariable Integer id,@RequestBody Ticket ticket) throws TicketNotFound {
+	public String updateTicket(@PathVariable Integer id,@RequestBody Ticket ticket) throws TicketNotFoundException {
 		ticketservice.update(id,ticket);
 		return "Ticket Updated Successfully";
 	}
 
 	// Endpoint to delete a ticket by its ID
 	@DeleteMapping("/delete/{id}")
-	public String deleteTicket(@PathVariable Integer id) throws TicketNotFound {
+	public String deleteTicket(@PathVariable Integer id) throws TicketNotFoundException {
 		ticketservice.delete(id);
 		return "Ticket Deleted Successfully";
 	}

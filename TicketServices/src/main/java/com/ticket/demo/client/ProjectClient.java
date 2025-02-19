@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.ticket.demo.model.Project;
+import com.ticket.demo.dto.Project;
 
 @FeignClient("PROJECT-SERVICE")
 public interface ProjectClient {

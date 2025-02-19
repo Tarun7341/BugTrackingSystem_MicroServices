@@ -22,9 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ticket.demo.BugTrackerSpringRestApplication;
 import com.ticket.demo.dto.TicketRequest;
-import com.ticket.demo.exception.ResourceNotFound;
-import com.ticket.demo.exception.TicketNotFound;
-import com.ticket.demo.model.Ticket;
+import com.ticket.demo.entity.Ticket;
+import com.ticket.demo.exception.ResourceNotFoundException;
+import com.ticket.demo.exception.TicketNotFoundException;
 import com.ticket.demo.repository.TicketRepository;
 import com.ticket.demo.serviceImpl.TicketServiceImpl;
 
@@ -71,7 +71,7 @@ class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testGetOne_Success() throws TicketNotFound {
+	public void testGetOne_Success() throws TicketNotFoundException {
 		when(ticketRepository.findById(1)).thenReturn(Optional.of(ticket));
 
 		Ticket result = ticketService.getOne(1);
@@ -88,7 +88,7 @@ class BugTrackerSpringRestApplicationTests {
 	public void testGetOne_TicketNotFound() {
 		when(ticketRepository.findById(1)).thenReturn(Optional.empty());
 
-		Exception exception = assertThrows(TicketNotFound.class, () -> {
+		Exception exception = assertThrows(TicketNotFoundException.class, () -> {
 			ticketService.getOne(1);
 		});
 
@@ -105,7 +105,7 @@ class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testUpdate_Success() throws TicketNotFound {
+	public void testUpdate_Success() throws TicketNotFoundException {
 		when(ticketRepository.findById(1)).thenReturn(Optional.of(ticket));
 
 		ticketService.update(1, ticket);
@@ -115,7 +115,7 @@ class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testDelete_Success() throws TicketNotFound {
+	public void testDelete_Success() throws TicketNotFoundException {
 		when(ticketRepository.existsById(1)).thenReturn(true);
 
 		ticketService.delete(1);
@@ -128,7 +128,7 @@ class BugTrackerSpringRestApplicationTests {
 	public void testDelete_TicketNotFound() {
 		when(ticketRepository.existsById(1)).thenReturn(false);
 
-		TicketNotFound exception = assertThrows(TicketNotFound.class, () -> {
+		TicketNotFoundException exception = assertThrows(TicketNotFoundException.class, () -> {
 			ticketService.delete(1);
 		});
 

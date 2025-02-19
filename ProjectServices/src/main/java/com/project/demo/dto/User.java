@@ -1,4 +1,5 @@
-package com.ticket.demo.model;
+package com.project.demo.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class User {
 
 	private Integer id;
@@ -18,5 +18,6 @@ public class User {
 	private String email;
 	private String phoneNumber;
 	private String role;
+	private String password;
 
 }

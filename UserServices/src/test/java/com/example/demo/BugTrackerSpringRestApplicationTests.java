@@ -20,11 +20,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.user.demo.client.ProjectClient;
 import com.user.demo.client.TicketClient;
+import com.user.demo.dto.Project;
+import com.user.demo.dto.Ticket;
 import com.user.demo.dto.UserRequest;
-import com.user.demo.exception.UserNotFound;
-import com.user.demo.model.Project;
-import com.user.demo.model.Ticket;
-import com.user.demo.model.User;
+import com.user.demo.entity.User;
+import com.user.demo.exception.UserNotFoundException;
 import com.user.demo.repository.UserRepository;
 import com.user.demo.serviceImpl.UserServiceImpl;
 
@@ -94,7 +94,7 @@ public class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testGetOne() throws UserNotFound {
+	public void testGetOne() throws UserNotFoundException {
 		when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
 		User foundUser = userService.getOne(user.getId());
@@ -128,7 +128,7 @@ public class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	public void testDelete() throws UserNotFound {
+	public void testDelete() throws UserNotFoundException {
 		when(userRepository.existsById(user.getId())).thenReturn(true);
 
 		userService.delete(user.getId());

@@ -1,21 +1,16 @@
-package com.ticket.demo.model;
+package com.project.demo.dto;
 
-//import org.apache.catalina.realm.JNDIRealm.User;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor(staticName = "build")
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 public class Ticket {
-	@Id
+
 	private Integer id;
 	private String title;
 	private String description;
@@ -24,10 +19,4 @@ public class Ticket {
 	private String type;
 	private String severity;
 	private String stepstoReproduce;
-
-	private Integer projectId;
-
-	private Integer userId;
-
-
 }

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import com.project.demo.client.TicketClient;
 import com.project.demo.client.UserClient;
 import com.project.demo.dto.ProjectRequest;
-import com.project.demo.exception.ProjectNotFound;
-import com.project.demo.exception.ResourceNotFound;
-import com.project.demo.model.Project;
-import com.project.demo.model.User;
+import com.project.demo.dto.User;
+import com.project.demo.entity.Project;
+import com.project.demo.exception.ProjectNotFoundException;
+import com.project.demo.exception.ResourceNotFoundException;
 import com.project.demo.repository.ProjectRepository;
 import com.project.demo.service.ProjectService;
 
@@ -58,7 +58,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	// Method to update an existing project
 	@Override
-	public void Update(Integer id,Project updateProject) throws ProjectNotFound {
+	public void Update(Integer id,Project updateProject) throws ProjectNotFoundException {
 		Project existingProject = projectrepository.findById(id).orElse(null);
 		
 		if(existingProject!=null) {
@@ -77,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
 			projectrepository.save(existingProject);
 			
 		}else {
-			throw new ProjectNotFound("Project with ID " + id + " not found !!");
+			throw new ProjectNotFoundException("Project with ID " + id + " not found !!");
 		}
 		
 	}
@@ -89,7 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
 			User user = userClient.getUserById(projectRequest.getUserId());
 		}
 		catch(FeignException.NotFound e) {
-			throw new ResourceNotFound("Cannot find User with Id: "+projectRequest.getUserId());
+			throw new ResourceNotFoundException("Cannot find User with Id: "+projectRequest.getUserId());
 		}
 		
 		Project project = Project.build(projectRequest.getId(),projectRequest.getName(), projectRequest.getDescription(), projectRequest.getUserId(),null);
@@ -99,21 +99,21 @@ public class ProjectServiceImpl implements ProjectService {
 
 	// Method to retrieve a single project by its ID
 	@Override
-	public Project getOne(Integer id) throws ProjectNotFound {
+	public Project getOne(Integer id) throws ProjectNotFoundException {
 		Project pjt = projectrepository.findById(id)
-				.orElseThrow(() -> new ProjectNotFound("Project with ID " + id + " not found !! "));
+				.orElseThrow(() -> new ProjectNotFoundException("Project with ID " + id + " not found !! "));
 		pjt.setTickets(ticketclient.getTicketsOfProject(pjt.getId()));
 		return pjt;
 	}
 
 	// Method to delete a project by its ID
 	@Override
-	public void delete(Integer id) throws ProjectNotFound{
+	public void delete(Integer id) throws ProjectNotFoundException{
 		if(projectrepository.existsById(id)) {
 			projectrepository.deleteById(id);
 		}
 		else {
-			throw new ProjectNotFound("Project with ID " + id + " not found !!");
+			throw new ProjectNotFoundException("Project with ID " + id + " not found !!");
 		}
 
 	}

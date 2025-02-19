@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.ticket.demo.client.ProjectClient;
 import com.ticket.demo.client.UserClient;
+import com.ticket.demo.dto.Project;
 import com.ticket.demo.dto.TicketRequest;
-import com.ticket.demo.exception.ResourceNotFound;
-import com.ticket.demo.exception.TicketNotFound;
-import com.ticket.demo.model.Project;
-import com.ticket.demo.model.Ticket;
-import com.ticket.demo.model.User;
+import com.ticket.demo.dto.User;
+import com.ticket.demo.entity.Ticket;
+import com.ticket.demo.exception.ResourceNotFoundException;
+import com.ticket.demo.exception.TicketNotFoundException;
 import com.ticket.demo.repository.TicketRepository;
 import com.ticket.demo.service.TicketService;
 
@@ -45,8 +45,8 @@ public class TicketServiceImpl implements TicketService {
 
 	// Method to update an existing ticket
 	@Override
-	public void update(Integer id, Ticket updateTicket) throws TicketNotFound {
-		Ticket existingTicket = ticketrepository.findById(id).orElseThrow(()-> new TicketNotFound("Ticket with ID " + id + " not found !!"));
+	public void update(Integer id, Ticket updateTicket) throws TicketNotFoundException {
+		Ticket existingTicket = ticketrepository.findById(id).orElseThrow(()-> new TicketNotFoundException("Ticket with ID " + id + " not found !!"));
 		if (existingTicket != null) {
 
 			if (updateTicket.getDescription() != null) {
@@ -98,7 +98,7 @@ public class TicketServiceImpl implements TicketService {
         User user = userClient.getUserById(ticketRequest.getUserId());
 		}
         catch (FeignException.NotFound e) {
-            throw new ResourceNotFound("User does not exist");
+            throw new ResourceNotFoundException("User does not exist");
         }
 
         // Check if project exists
@@ -106,7 +106,7 @@ public class TicketServiceImpl implements TicketService {
         Project project = projectClient.getProjectById(ticketRequest.getProjectId());
 		}
         catch (FeignException.NotFound e) {
-            throw new ResourceNotFound("Project does not exist");
+            throw new ResourceNotFoundException("Project does not exist");
         
         }
 		
@@ -120,19 +120,19 @@ public class TicketServiceImpl implements TicketService {
 
 	// Method to retrieve a single ticket by its ID
 	@Override
-	public Ticket getOne(Integer id) throws TicketNotFound {
+	public Ticket getOne(Integer id) throws TicketNotFoundException {
 
 		return ticketrepository.findById(id)
-				.orElseThrow(() -> new TicketNotFound("Ticket with ID " + id + " not found !!"));
+				.orElseThrow(() -> new TicketNotFoundException("Ticket with ID " + id + " not found !!"));
 	}
 
 	// Method to delete a ticket by its ID
 	@Override
-	public void delete(Integer id) throws TicketNotFound {
+	public void delete(Integer id) throws TicketNotFoundException {
 		if (ticketrepository.existsById(id)) {
 			ticketrepository.deleteById(id);
 		} else {
-			throw new TicketNotFound("Ticket with ID " + id + " not found !!");
+			throw new TicketNotFoundException("Ticket with ID " + id + " not found !!");
 		}
 
 	}

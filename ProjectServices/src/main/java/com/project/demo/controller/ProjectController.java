@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.demo.dto.ProjectRequest;
-import com.project.demo.exception.ProjectNotFound;
-import com.project.demo.model.Project;
+import com.project.demo.entity.Project;
+import com.project.demo.exception.ProjectNotFoundException;
 import com.project.demo.service.ProjectService;
 
 import jakarta.validation.Valid;
@@ -53,7 +53,7 @@ public class ProjectController {
 
 	 // Endpoint to get a project by its ID
 	@GetMapping("/getOne/{id}")
-	public Project getProjectById(@PathVariable Integer id) throws ProjectNotFound {
+	public Project getProjectById(@PathVariable Integer id) throws ProjectNotFoundException {
 		return projectservice.getOne(id);
 	}
 
@@ -67,14 +67,14 @@ public class ProjectController {
 
     // Endpoint to update an existing project
 	@PutMapping("/update/{id}")
-	public String updateProject(@PathVariable Integer id, @RequestBody Project project) throws ProjectNotFound {
+	public String updateProject(@PathVariable Integer id, @RequestBody Project project) throws ProjectNotFoundException {
 		projectservice.Update(id,project);
 		return "Project Updated Successfully";
 	}
 	
 	  // Endpoint to delete a project by its ID
 	@DeleteMapping("/delete/{id}")
-	public String deleteProject(@PathVariable Integer id) throws ProjectNotFound {
+	public String deleteProject(@PathVariable Integer id) throws ProjectNotFoundException {
 		projectservice.delete(id);
 		return "Project Deleted Successfully";
 	}

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.user.demo.dto.UserCredentialsDto;
 import com.user.demo.dto.UserRequest;
+import com.user.demo.entity.User;
 import com.user.demo.exception.InvalidCredentialsException;
-import com.user.demo.exception.UserNotFound;
-import com.user.demo.model.User;
+import com.user.demo.exception.UserNotFoundException;
 import com.user.demo.service.UserService;
 
 import jakarta.validation.Valid;
@@ -63,7 +63,7 @@ public class UserController {
 
 	// Endpoint to get a single user by their ID
 	@GetMapping("/getOne/{id}")
-	public User getOneUser(@PathVariable Integer id) throws UserNotFound {
+	public User getOneUser(@PathVariable Integer id) throws UserNotFoundException {
 		return userservice.getOne(id);
 	}
 
@@ -76,21 +76,21 @@ public class UserController {
 
 	// Endpoint to update an existing user
 	@PutMapping("/update/{id}")
-	public String updateUser(@PathVariable Integer id,@RequestBody @Valid User user) throws UserNotFound {
+	public String updateUser(@PathVariable Integer id,@RequestBody @Valid User user) throws UserNotFoundException {
 		userservice.update(id,user);
 		return "User Updated Successfully";
 	}
 	
 	// Endpoint to delete a user by their ID
 	@DeleteMapping("/delete/{id}")
-	public String deleteUser(@PathVariable Integer id) throws UserNotFound {
+	public String deleteUser(@PathVariable Integer id) throws UserNotFoundException {
 		userservice.delete(id);
 		return "User Deleted Successfully";
 	}
 
 	//Endpoint to login a user
 	@PostMapping("/login")
-    public String loginUser(@RequestBody UserCredentialsDto user) throws InvalidCredentialsException, UserNotFound {
+    public String loginUser(@RequestBody UserCredentialsDto user) throws InvalidCredentialsException, UserNotFoundException {
     	return userservice.loginUser(user);
     }
 }

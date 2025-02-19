@@ -1,17 +1,25 @@
-package com.project.demo.model;
+package com.user.demo.entity;
 
+import java.util.List;
 
+import com.user.demo.dto.Project;
+import com.user.demo.dto.Ticket;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class User {
 
+	@Id
 	private Integer id;
 	private String firstname;
 	private String lastname;
@@ -19,5 +27,9 @@ public class User {
 	private String phoneNumber;
 	private String role;
 	private String password;
+
+	transient private List<Ticket> tickets;
+	
+	transient private List<Project> projects;
 
 }

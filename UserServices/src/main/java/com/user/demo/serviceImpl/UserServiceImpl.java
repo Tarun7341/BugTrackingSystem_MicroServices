@@ -12,9 +12,9 @@ import com.user.demo.client.ProjectClient;
 import com.user.demo.client.TicketClient;
 import com.user.demo.dto.UserCredentialsDto;
 import com.user.demo.dto.UserRequest;
+import com.user.demo.entity.User;
 import com.user.demo.exception.InvalidCredentialsException;
-import com.user.demo.exception.UserNotFound;
-import com.user.demo.model.User;
+import com.user.demo.exception.UserNotFoundException;
 import com.user.demo.repository.UserRepository;
 import com.user.demo.service.UserService;
 
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
 	// Method to update an existing user
 	@Override
-	public void update(Integer id, User updateUser) throws UserNotFound {
+	public void update(Integer id, User updateUser) throws UserNotFoundException {
 		User existingUser = userrepository.findById(id).orElse(null);
 
 		if (existingUser != null) {
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 			}
 			userrepository.save(existingUser);
 		} else {
-			throw new UserNotFound("User with ID " + id + " not found !!");
+			throw new UserNotFoundException("User with ID " + id + " not found !!");
 		}
 
 	}
@@ -106,20 +106,20 @@ public class UserServiceImpl implements UserService {
 
 	// Method to retrieve a single user by their ID
 	@Override
-	public User getOne(Integer id) throws UserNotFound {
+	public User getOne(Integer id) throws UserNotFoundException {
 
 		return userrepository.findById(id)
-				.orElseThrow(() -> new UserNotFound("User with ID " + id + " not found !!"));
+				.orElseThrow(() -> new UserNotFoundException("User with ID " + id + " not found !!"));
 		
 	}
 
 	// Method to delete a user by their ID
 	@Override
-	public void delete(Integer id) throws UserNotFound {
+	public void delete(Integer id) throws UserNotFoundException {
 		if (userrepository.existsById(id)) {
 			userrepository.deleteById(id);
 		} else {
-			throw new UserNotFound("Ticket with ID " + id + " not found !!");
+			throw new UserNotFoundException("Ticket with ID " + id + " not found !!");
 		}
 
 	}
@@ -140,11 +140,11 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Override
-	public String loginUser(UserCredentialsDto user) throws InvalidCredentialsException, UserNotFound {
+	public String loginUser(UserCredentialsDto user) throws InvalidCredentialsException, UserNotFoundException {
 	    Optional<User> foundUser = userrepository.findByEmail(user.getEmail());
 	    
 	    if (!foundUser.isPresent()) {
-	        throw new UserNotFound("User Not found!!");
+	        throw new UserNotFoundException("User Not found!!");
 	    }
 	    
 	    User existingUser = foundUser.get();

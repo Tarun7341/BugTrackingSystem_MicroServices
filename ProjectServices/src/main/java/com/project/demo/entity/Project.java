@@ -1,6 +1,8 @@
-package com.project.demo.model;
+package com.project.demo.entity;
 
 import java.util.List;
+
+import com.project.demo.dto.Ticket;
 
 import jakarta.persistence.Entity;
 

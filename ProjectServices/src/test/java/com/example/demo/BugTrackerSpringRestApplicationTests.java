@@ -21,8 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.project.demo.client.TicketClient;
 import com.project.demo.dto.ProjectRequest;
-import com.project.demo.exception.ProjectNotFound;
-import com.project.demo.model.Project;
+import com.project.demo.entity.Project;
+import com.project.demo.exception.ProjectNotFoundException;
 import com.project.demo.repository.ProjectRepository;
 import com.project.demo.serviceImpl.ProjectServiceImpl;
 
@@ -69,7 +69,7 @@ public class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	void testGetOne_Success() throws ProjectNotFound {
+	void testGetOne_Success() throws ProjectNotFoundException {
 		when(projectRepository.findById(1)).thenReturn(Optional.of(project));
 		when(ticketClient.getTicketsOfProject(1)).thenReturn(new ArrayList<>());
 
@@ -89,7 +89,7 @@ public class BugTrackerSpringRestApplicationTests {
 	void testGetOne_ProjectNotFound() {
 		when(projectRepository.findById(1)).thenReturn(Optional.empty());
 
-		Exception exception = assertThrows(ProjectNotFound.class, () -> {
+		Exception exception = assertThrows(ProjectNotFoundException.class, () -> {
 			projectService.getOne(1);
 		});
 
@@ -107,7 +107,7 @@ public class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	void testUpdate_Success() throws ProjectNotFound {
+	void testUpdate_Success() throws ProjectNotFoundException {
 		when(projectRepository.findById(1)).thenReturn(Optional.of(project));
 
 		projectService.Update(1, project);
@@ -120,7 +120,7 @@ public class BugTrackerSpringRestApplicationTests {
 	void testUpdate_ProjectNotFound() {
 		when(projectRepository.findById(1)).thenReturn(Optional.empty());
 
-		Exception exception = assertThrows(ProjectNotFound.class, () -> {
+		Exception exception = assertThrows(ProjectNotFoundException.class, () -> {
 			projectService.Update(1, project);
 		});
 
@@ -131,7 +131,7 @@ public class BugTrackerSpringRestApplicationTests {
 	}
 
 	@Test
-	void testDelete_Success() throws ProjectNotFound {
+	void testDelete_Success() throws ProjectNotFoundException {
 		when(projectRepository.existsById(1)).thenReturn(true);
 
 		projectService.delete(1);
@@ -144,7 +144,7 @@ public class BugTrackerSpringRestApplicationTests {
 	void testDelete_ProjectNotFound() {
 		when(projectRepository.existsById(1)).thenReturn(false);
 
-		Exception exception = assertThrows(ProjectNotFound.class, () -> {
+		Exception exception = assertThrows(ProjectNotFoundException.class, () -> {
 			projectService.delete(1);
 		});
 

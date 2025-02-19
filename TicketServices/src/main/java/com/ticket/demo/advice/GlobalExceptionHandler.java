@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.ticket.demo.exception.ResourceNotFound;
-import com.ticket.demo.exception.TicketNotFound;
+import com.ticket.demo.exception.ResourceNotFoundException;
+import com.ticket.demo.exception.TicketNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-	@ExceptionHandler(TicketNotFound.class)
-	ResponseEntity<String> HandleTicketNotFound(TicketNotFound ex) {
+	@ExceptionHandler(TicketNotFoundException.class)
+	ResponseEntity<String> HandleTicketNotFound(TicketNotFoundException ex) {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 
 
 
-	@ExceptionHandler(ResourceNotFound.class)
-	public ResponseEntity<String> handleResourceNotFound(ResourceNotFound ex) {
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 

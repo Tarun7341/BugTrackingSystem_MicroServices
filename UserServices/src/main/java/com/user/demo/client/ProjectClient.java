@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.user.demo.model.Project;
+import com.user.demo.dto.Project;
 //@FeignClient(url="http://localhost:9091", value = "Project-Client")
 @FeignClient(name="PROJECT-SERVICE")
 public interface ProjectClient {
