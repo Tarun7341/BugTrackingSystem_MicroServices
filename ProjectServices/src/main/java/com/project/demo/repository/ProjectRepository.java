@@ -11,6 +11,6 @@ import com.project.demo.entity.Project;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-	List<Project> findProjectsByUserId(Integer userId);
+	List<Project> findProjectsByUserId(List<Integer> userId);
 
 }

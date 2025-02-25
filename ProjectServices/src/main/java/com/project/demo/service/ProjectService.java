@@ -18,8 +18,10 @@ public interface ProjectService {
 
 	public void delete(Integer id) throws ProjectNotFoundException;
 
-	List<Project> getProjectsByUserId(Integer userId);
+	List<Project> getProjectsByUserId(List<Integer> userId);
 	
 	public List<Project> getTicketsOfProject();
+	
+	public String removeUserId(Integer id, Integer userIdToRemove) throws ProjectNotFoundException;
 
 }

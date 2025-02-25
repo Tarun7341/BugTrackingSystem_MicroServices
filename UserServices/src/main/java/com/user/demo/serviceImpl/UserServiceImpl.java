@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.user.demo.client.ProjectClient;
-import com.user.demo.client.TicketClient;
+import com.user.demo.client.ProjectFeignClient;
+import com.user.demo.client.TicketFeignClient;
 import com.user.demo.dto.UserCredentialsDto;
 import com.user.demo.dto.UserRequest;
 import com.user.demo.entity.User;
@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
 
 	// Injecting the TicketClient dependency
 	@Autowired
-	public TicketClient ticketclient;
+	public TicketFeignClient ticketclient;
 
 	// Injecting the ProjectClient dependency
 	@Autowired
-	public ProjectClient projectclient;
+	public ProjectFeignClient projectclient;
 
 	// Method to retrieve all users
 	public List<User> getAll() {

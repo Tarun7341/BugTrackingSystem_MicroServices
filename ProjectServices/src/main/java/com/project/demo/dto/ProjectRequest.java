@@ -1,6 +1,8 @@
 package com.project.demo.dto;
 
 
+import java.util.List;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Setter
 public class ProjectRequest {
 
-    @NotNull(message = "ID cannot be null")
+    
     @Min(value = 1, message = "ID must be greater than or equal to 1")
     private Integer id;
     
@@ -27,9 +29,9 @@ public class ProjectRequest {
     @Size(min = 10, max = 200, message = "Description must be between 10 and 200 characters")
     private String description;
     
-    @NotNull(message = "User ID cannot be null")
-    @Min(value = 1, message = "User ID must be greater than or equal to 1")
-    private Integer userId;
+    //@NotNull(message = "User ID cannot be null")
+   // @Min(value = 1, message = "User ID must be greater than or equal to 1")
+    private List<Integer> userId;
     
  
 }

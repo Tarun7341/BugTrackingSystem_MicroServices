@@ -1,5 +1,7 @@
 package com.user.demo.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +21,5 @@ public class Ticket {
 	private String type;
 	private String severity;
 	private String stepstoReproduce;
+	private List<Integer> userId;
 }

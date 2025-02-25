@@ -2,6 +2,10 @@ package com.user.demo.dto;
 
 
 
+import com.user.demo.entity.Roles;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -33,11 +37,13 @@ public class UserRequest {
     private String email;
 
     @NotBlank(message = "Phone number is mandatory")
-    @Pattern(regexp = "^\\+?[1-9]\\d{10}$", message = "Phone number should be valid")
+   // @Pattern(regexp = "^\\+?[1-9]\\d{10}$", message = "Phone number should be valid")
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Phone number should be valid")
     private String phoneNumber;
 
-    @NotBlank(message = "Role is mandatory")
-    private String role;
+    //@NotBlank(message = "Role is mandatory")
+    @Enumerated(EnumType.STRING)
+    private Roles role;
     
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$")
     private String password;

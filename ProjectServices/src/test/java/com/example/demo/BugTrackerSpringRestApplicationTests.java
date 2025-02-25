@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,13 +44,14 @@ public class BugTrackerSpringRestApplicationTests {
 
 	@BeforeEach
 	void setUp() {
+		List<Integer> userIds = Arrays.asList(1, 2, 3);
 		project = new Project();
 		project.setId(1);
 		project.setName("Test Project");
 		project.setDescription("Test Description");
-		project.setUserId(1);
+		project.setUserId(userIds);
 
-		projectRequest = new ProjectRequest(1, "Test Project", "Test Description", 1);
+		projectRequest = new ProjectRequest(1, "Test Project", "Test Description", userIds);
 	}
 
 	@Test
@@ -156,18 +158,19 @@ public class BugTrackerSpringRestApplicationTests {
 
 	@Test
 	void testGetProjectsByUserId() {
+		List<Integer> userIds = Arrays.asList(1, 2, 3);
 		List<Project> projects = new ArrayList<>();
 		projects.add(project);
 
-		when(projectRepository.findProjectsByUserId(1)).thenReturn(projects);
+		when(projectRepository.findProjectsByUserId(userIds)).thenReturn(projects);
 
-		List<Project> result = projectService.getProjectsByUserId(1);
+		List<Project> result = projectService.getProjectsByUserId(userIds);
 
 		assertNotNull(result);
 		assertEquals(1, result.size());
 		assertEquals(project, result.get(0));
 
-		verify(projectRepository, times(1)).findProjectsByUserId(1);
+		verify(projectRepository, times(1)).findProjectsByUserId(userIds);
 	}
 
 	@Test

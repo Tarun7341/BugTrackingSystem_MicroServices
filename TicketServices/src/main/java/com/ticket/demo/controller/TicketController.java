@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ticket.demo.dto.TicketRequest;
 import com.ticket.demo.entity.Ticket;
-import com.ticket.demo.exception.ResourceNotFoundException;
+
 import com.ticket.demo.exception.TicketNotFoundException;
 import com.ticket.demo.service.TicketService;
 
@@ -84,6 +84,12 @@ public class TicketController {
 	@GetMapping("/users/{id}")
 	public List<Ticket> getTicketByUser(@PathVariable Integer id) {
 		return ticketservice.getTicketsByUser(id);
+	}
+	
+	@PutMapping("/removeUser/{id}/{userIdToRemove}")
+	public String removeUserId(@PathVariable Integer id,@PathVariable Integer userIdToRemove) throws TicketNotFoundException {
+		return ticketservice.removeUserId(id, userIdToRemove);
+	
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ticket.demo.dto.TicketRequest;
 import com.ticket.demo.entity.Ticket;
-import com.ticket.demo.exception.ResourceNotFoundException;
+
 import com.ticket.demo.exception.TicketNotFoundException;
 
 public interface TicketService {
@@ -21,6 +21,8 @@ public interface TicketService {
 
 	public List<Ticket> getTicketsByProject(Integer Id);
 
-	public List<Ticket> getTicketsByUser(Integer Id);
+	public List<Ticket> getTicketsByUser(Integer id);
+	
+	public String removeUserId(Integer id, Integer userIdToRemove) throws TicketNotFoundException;
 
 }

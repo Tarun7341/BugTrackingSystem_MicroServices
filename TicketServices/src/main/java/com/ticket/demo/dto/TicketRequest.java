@@ -1,14 +1,12 @@
 package com.ticket.demo.dto;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
+import java.util.List;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,7 +48,7 @@ public class TicketRequest {
     private Integer projectId;
 
     @NotNull(message = "User ID is mandatory")
-    @Min(value = 1, message = "User ID must be a positive integer")
-    private Integer userId;
+   // @Min(value = 1, message = "User ID must be a positive integer")
+    private List<Integer> userId;
 }
 

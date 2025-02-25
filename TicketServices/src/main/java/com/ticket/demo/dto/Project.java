@@ -2,13 +2,9 @@ package com.ticket.demo.dto;
 
 import java.util.List;
 
-//import org.apache.catalina.realm.JNDIRealm.User;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +21,7 @@ public class Project {
 	private Integer id;
 	private String name;
 	private String description;
-	private Integer userId;
+	private List<Integer> userId;
 	
 
 }

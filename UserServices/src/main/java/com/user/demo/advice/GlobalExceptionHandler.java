@@ -22,12 +22,12 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(UserNotFoundException.class)
 	ResponseEntity<String> handleResourceNotFoundException(UserNotFoundException ex){
-		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(InvalidCredentialsException.class)
 	ResponseEntity<String> handleResourceNotFoundException(InvalidCredentialsException ex){
-		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
 	}
 	
 	

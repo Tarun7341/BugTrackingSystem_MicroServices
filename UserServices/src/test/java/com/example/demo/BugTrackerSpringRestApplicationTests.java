@@ -18,11 +18,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.user.demo.client.ProjectClient;
-import com.user.demo.client.TicketClient;
+import com.user.demo.client.ProjectFeignClient;
+import com.user.demo.client.TicketFeignClient;
 import com.user.demo.dto.Project;
 import com.user.demo.dto.Ticket;
 import com.user.demo.dto.UserRequest;
+import com.user.demo.entity.Roles;
 import com.user.demo.entity.User;
 import com.user.demo.exception.UserNotFoundException;
 import com.user.demo.repository.UserRepository;
@@ -35,23 +36,25 @@ public class BugTrackerSpringRestApplicationTests {
 	private UserRepository userRepository;
 
 	@Mock
-	private TicketClient ticketClient;
+	private TicketFeignClient ticketFeignClient;
 
 	@Mock
-	private ProjectClient projectClient;
+	private ProjectFeignClient projectFeignClient;
 
 	@InjectMocks
 	private UserServiceImpl userService;
 
 	private User user;
+	
+	private Roles role;
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		user = createUser(1, "John", "Doe", "john.doe@example.com", "1234567890", "USER", "password123", null, null);
+		user = createUser(1, "John", "Doe", "john.doe@example.com", "1234567890",role.DEVELOPER , "password123", null, null);
 	}
 
 	private User createUser(Integer id, String firstname, String lastname, String email, String phoneNumber,
-			String role, String password, List<Ticket> tickets, List<Project> projects) throws Exception {
+			Roles role, String password, List<Ticket> tickets, List<Project> projects) throws Exception {
 		User user = User.class.getDeclaredConstructor().newInstance();
 		Field idField = User.class.getDeclaredField("id");
 		idField.setAccessible(true);
@@ -104,7 +107,7 @@ public class BugTrackerSpringRestApplicationTests {
 
 	@Test
 	public void testAddNew() {
-		UserRequest userRequest = new UserRequest(1, "John", "Doe", "john.doe@example.com", "1234567890", "USER",
+		UserRequest userRequest = new UserRequest(1, "John", "Doe", "john.doe@example.com", "1234567890", role.DEVELOPER,
 				"password123");
 
 		userService.addNew(userRequest);
@@ -116,14 +119,14 @@ public class BugTrackerSpringRestApplicationTests {
 	public void testUpdate() throws Exception {
 		when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
-		User updatedUser = createUser(1, "John", "Smith", "john.smith@example.com", "0987654321", "ADMIN",
+		User updatedUser = createUser(1, "John", "Smith", "john.smith@example.com", "0987654321", role.DEVELOPER,
 				"newpassword123", null, null);
 		userService.update(user.getId(), updatedUser);
 
 		assertEquals("Smith", user.getLastname());
 		assertEquals("john.smith@example.com", user.getEmail());
 		assertEquals("0987654321", user.getPhoneNumber());
-		assertEquals("ADMIN", user.getRole());
+		assertEquals(role.DEVELOPER, user.getRole());
 		assertEquals("newpassword123", user.getPassword());
 	}
 
@@ -139,7 +142,7 @@ public class BugTrackerSpringRestApplicationTests {
 	@Test
 	public void testGetUserTickets() {
 		when(userRepository.findAll()).thenReturn(Arrays.asList(user));
-		when(ticketClient.getTicketsOfUsers(user.getId())).thenReturn(Arrays.asList(new Ticket()));
+		when(ticketFeignClient.getTicketsOfUsers(user.getId())).thenReturn(Arrays.asList(new Ticket()));
 
 		List<User> userList = userService.getUserTickets();
 
@@ -150,7 +153,7 @@ public class BugTrackerSpringRestApplicationTests {
 	@Test
 	public void testGetUserProjects() {
 		when(userRepository.findAll()).thenReturn(Arrays.asList(user));
-		when(projectClient.getProjectsOfUsers(user.getId())).thenReturn(Arrays.asList(new Project()));
+		when(projectFeignClient.getProjectsOfUsers(user.getId())).thenReturn(Arrays.asList(new Project()));
 
 		List<User> userList = userService.getUserProjects();
 

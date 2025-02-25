@@ -2,7 +2,6 @@ package com.project.demo.controller;
 
 import java.util.List;
 
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,8 +81,13 @@ public class ProjectController {
 	
     // Endpoint to get projects by user ID
 	@GetMapping("/getProjectsByUserId/{userId}")
-	public List<Project> getProjectsByUserId(@PathVariable("userId") Integer userId) {
+	public List<Project> getProjectsByUserId(@PathVariable("userId") List<Integer> userId) {
 		return projectservice.getProjectsByUserId(userId);
+	}
+	
+	@PutMapping("/removeUser/{id}/{userIdToRemove}")
+	public String removeUserId(@PathVariable Integer id,@PathVariable Integer userIdToRemove) throws ProjectNotFoundException {
+		return projectservice.removeUserId(id, userIdToRemove);
 	}
 
 }
