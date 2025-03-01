@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor(staticName = "build")
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -32,8 +32,7 @@ public class User {
 	private String email;
 	private String phoneNumber;
 	
-	@Enumerated(EnumType.STRING)
-	private Roles role;
+	private String roles;
 	private String password;
 	
 	

@@ -13,7 +13,7 @@ public interface TicketService {
 
 	public void update(Integer id,Ticket ticket) throws TicketNotFoundException;
 
-	public void addNew(TicketRequest ticketRequest);
+	public void addNew(Ticket ticket);
 
 	public Ticket getOne(Integer id) throws TicketNotFoundException;
 

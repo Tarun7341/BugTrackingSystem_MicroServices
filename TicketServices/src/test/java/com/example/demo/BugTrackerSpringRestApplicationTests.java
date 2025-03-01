@@ -100,7 +100,7 @@ class BugTrackerSpringRestApplicationTests {
 
 	@Test
 	public void testAddNew()  {
-		ticketService.addNew(ticketRequest);
+		ticketService.addNew(ticket);
 
 		verify(ticketRepository, times(1)).save(any(Ticket.class));
 	}

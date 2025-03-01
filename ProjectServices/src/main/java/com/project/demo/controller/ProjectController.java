@@ -2,6 +2,8 @@ package com.project.demo.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.demo.dto.ProjectRequest;
+import com.project.demo.dto.ProjectIdNameProjection;
+import com.project.demo.dto.UserDTO;
 import com.project.demo.entity.Project;
 import com.project.demo.exception.ProjectNotFoundException;
 import com.project.demo.service.ProjectService;
@@ -58,8 +61,8 @@ public class ProjectController {
 
     // Endpoint to add a new project
 	@PostMapping("/addNew")
-	public String addProject(@RequestBody @Valid ProjectRequest projectRequest) {
-		projectservice.addNew(projectRequest);
+	public String addProject(@RequestBody @Valid Project project) {
+		projectservice.addNew(project);
 		return "Project Added Successfully";
 	}
 
@@ -89,5 +92,15 @@ public class ProjectController {
 	public String removeUserId(@PathVariable Integer id,@PathVariable Integer userIdToRemove) throws ProjectNotFoundException {
 		return projectservice.removeUserId(id, userIdToRemove);
 	}
+	
+	
+	  @GetMapping("/ids-and-names")
+	    public ResponseEntity<List<ProjectIdNameProjection>> getProjectIdsAndNames() {
+	        List<ProjectIdNameProjection> projects = projectservice.fetchProjectIdsAndNames();
+	        return new ResponseEntity<>(projects, HttpStatus.OK);
+	    }
+	  
+	  
+	 
 
 }

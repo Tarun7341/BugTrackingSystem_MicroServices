@@ -2,7 +2,8 @@ package com.user.demo.controller;
 
 import java.util.List;
 
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.user.demo.dto.UserCredentialsDto;
-import com.user.demo.dto.UserRequest;
+import com.user.demo.dto.UserIdNameProjection;
 import com.user.demo.entity.User;
 import com.user.demo.exception.InvalidCredentialsException;
 import com.user.demo.exception.UserNotFoundException;
@@ -50,16 +51,16 @@ public class UserController {
 	}
 	
 	 // Endpoint to get projects of a user
-	@GetMapping("/getProjects")
-	public List<User> getProjects(){
-		return userservice.getUserProjects();
-	}
-	
-	// Endpoint to get tickets of a user
-	@GetMapping("/getTickets")
-	public List<User> getTickets(){
-		return userservice.getUserTickets();
-	}
+//	@GetMapping("/getProjects")
+//	public List<User> getProjects(){
+//		return userservice.getUserProjects();
+//	}
+//	
+//	// Endpoint to get tickets of a user
+//	@GetMapping("/getTickets")
+//	public List<User> getTickets(){
+//		return userservice.getUserTickets();
+//	}
 
 	// Endpoint to get a single user by their ID
 	@GetMapping("/getOne/{id}")
@@ -69,8 +70,8 @@ public class UserController {
 
 	// Endpoint to add a new user
 	@PostMapping("/addNew")
-	public String addNewUser(@RequestBody @Valid UserRequest userRequest) {
-		userservice.addNew(userRequest);
+	public String addNewUser(@RequestBody @Valid User user) {
+		userservice.addNew(user);
 		return "User Added Successfully";
 	}
 
@@ -89,8 +90,14 @@ public class UserController {
 	}
 
 	//Endpoint to login a user
-	@PostMapping("/login")
-    public String loginUser(@RequestBody UserCredentialsDto user) throws InvalidCredentialsException, UserNotFoundException {
-    	return userservice.loginUser(user);
+//	@PostMapping("/login")
+//    public String loginUser(@RequestBody UserCredentialsDto user) throws InvalidCredentialsException, UserNotFoundException {
+//    	return userservice.loginUser(user);
+//    }
+	
+	@GetMapping("/ids-and-names")
+    public ResponseEntity<List<UserIdNameProjection>> getUserIdsAndNames() {
+        List<UserIdNameProjection> users = userservice.fetchUserIdsAndNames();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

@@ -46,15 +46,15 @@ public class BugTrackerSpringRestApplicationTests {
 
 	private User user;
 	
-	private Roles role;
+	
 
 	@BeforeEach
 	public void setUp() throws Exception {
-		user = createUser(1, "John", "Doe", "john.doe@example.com", "1234567890",role.DEVELOPER , "password123", null, null);
+		user = createUser(1, "John", "Doe", "john.doe@example.com", "1234567890","ADMIN", "password123", null, null);
 	}
 
 	private User createUser(Integer id, String firstname, String lastname, String email, String phoneNumber,
-			Roles role, String password, List<Ticket> tickets, List<Project> projects) throws Exception {
+			String string, String password, List<Ticket> tickets, List<Project> projects) throws Exception {
 		User user = User.class.getDeclaredConstructor().newInstance();
 		Field idField = User.class.getDeclaredField("id");
 		idField.setAccessible(true);
@@ -73,7 +73,7 @@ public class BugTrackerSpringRestApplicationTests {
 		phoneNumberField.set(user, phoneNumber);
 		Field roleField = User.class.getDeclaredField("role");
 		roleField.setAccessible(true);
-		roleField.set(user, role);
+		roleField.set(user, string);
 		Field passwordField = User.class.getDeclaredField("password");
 		passwordField.setAccessible(true);
 		passwordField.set(user, password);
@@ -107,10 +107,10 @@ public class BugTrackerSpringRestApplicationTests {
 
 	@Test
 	public void testAddNew() {
-		UserRequest userRequest = new UserRequest(1, "John", "Doe", "john.doe@example.com", "1234567890", role.DEVELOPER,
-				"password123");
+		User user = new User(1, "John", "Doe", "john.doe@example.com", "1234567890", "ADMIN",
+				"password123",null,null);
 
-		userService.addNew(userRequest);
+		userService.addNew(user);
 
 		verify(userRepository, times(1)).save(any(User.class));
 	}
@@ -119,14 +119,14 @@ public class BugTrackerSpringRestApplicationTests {
 	public void testUpdate() throws Exception {
 		when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
 
-		User updatedUser = createUser(1, "John", "Smith", "john.smith@example.com", "0987654321", role.DEVELOPER,
+		User updatedUser = createUser(1, "John", "Smith", "john.smith@example.com", "0987654321", "ADMIN",
 				"newpassword123", null, null);
 		userService.update(user.getId(), updatedUser);
 
 		assertEquals("Smith", user.getLastname());
 		assertEquals("john.smith@example.com", user.getEmail());
 		assertEquals("0987654321", user.getPhoneNumber());
-		assertEquals(role.DEVELOPER, user.getRole());
+		assertEquals("ADMIN", user.getRoles());
 		assertEquals("newpassword123", user.getPassword());
 	}
 

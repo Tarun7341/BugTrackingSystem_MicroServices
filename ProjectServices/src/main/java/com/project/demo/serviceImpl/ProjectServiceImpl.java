@@ -11,15 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.project.demo.client.TicketClient;
 import com.project.demo.client.UserClient;
-import com.project.demo.dto.ProjectRequest;
-import com.project.demo.dto.User;
+import com.project.demo.dto.ProjectIdNameProjection;
+import com.project.demo.dto.UserDTO;
 import com.project.demo.entity.Project;
 import com.project.demo.exception.ProjectNotFoundException;
-import com.project.demo.exception.ResourceNotFoundException;
 import com.project.demo.repository.ProjectRepository;
 import com.project.demo.service.ProjectService;
-
-import feign.FeignException;
 
 /*
  * Author: THARUN A
@@ -162,26 +159,24 @@ public class ProjectServiceImpl implements ProjectService {
 //
 //	}
 	
-	public void addNew(ProjectRequest projectRequest) {
-	    List<Integer> userIds = projectRequest.getUserId();
-	    List<User> users = new ArrayList<>();
+	public void addNew(Project project) {
+//	    List<Integer> userIds = project.getUserId();
+//	    List<User> users = new ArrayList<>();
+//
+//	    for (Integer userId : userIds) {
+//	    	
+//	            User user = userClient.getUserById(userId);
+//	            users.add(user);
+//	        
+//	    }
 
-	    for (Integer userId : userIds) {
-	        try {
-	            User user = userClient.getUserById(userId);
-	            users.add(user);
-	        } catch (FeignException.NotFound e) {
-	            throw new ResourceNotFoundException("Cannot find User with Id: " + userId);
-	        }
-	    }
-
-	    Project project = Project.build(
-	        projectRequest.getId(),
-	        projectRequest.getName(),
-	        projectRequest.getDescription(),
-	        userIds, // Pass the list of user IDs here
-	        null
-	    );
+//	    Project project = Project.build(
+//	        projectRequest.getId(),
+//	        projectRequest.getName(),
+//	        projectRequest.getDescription(),
+//	        userIds, // Pass the list of user IDs here
+//	        null
+//	    );
 
 	    projectrepository.save(project);
 	}
@@ -223,6 +218,14 @@ public class ProjectServiceImpl implements ProjectService {
 	                      .filter(project -> userIds.stream().anyMatch(userId -> project.getUserId().contains(userId)))
 	                      .collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<ProjectIdNameProjection> fetchProjectIdsAndNames() {
+        return projectrepository.findProjectIdAndName();
+    }
+	
+	
+	
 
 
 

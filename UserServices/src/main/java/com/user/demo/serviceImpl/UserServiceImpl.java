@@ -6,12 +6,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.user.demo.client.ProjectFeignClient;
 import com.user.demo.client.TicketFeignClient;
 import com.user.demo.dto.UserCredentialsDto;
-import com.user.demo.dto.UserRequest;
+import com.user.demo.dto.UserIdNameProjection;
 import com.user.demo.entity.User;
 import com.user.demo.exception.InvalidCredentialsException;
 import com.user.demo.exception.UserNotFoundException;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
 	// Injecting the UserRepository dependency
 	@Autowired
 	public UserRepository userrepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	// Injecting the TicketClient dependency
 	@Autowired
@@ -81,8 +85,8 @@ public class UserServiceImpl implements UserService {
 				existingUser.setPhoneNumber(updateUser.getPhoneNumber());
 			}
 
-			if (updateUser.getRole() != null) {
-				existingUser.setRole(updateUser.getRole());
+			if (updateUser.getRoles() != null) {
+				existingUser.setRoles(updateUser.getRoles());
 			}
 			
 			if (updateUser.getPassword() != null) {
@@ -97,10 +101,20 @@ public class UserServiceImpl implements UserService {
 
 	// Method to add a new user
 	@Override
-	public void addNew(UserRequest userRequest) {
-		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(),
-				userRequest.getEmail(), userRequest.getPhoneNumber(), userRequest.getRole(),userRequest.getPassword(), null, null);
-		userrepository.save(user);
+	public String addNew(User user) {
+//		User user = User.build(userRequest.getId(), userRequest.getFirstname(), userRequest.getLastname(),
+//				userRequest.getEmail(), userRequest.getPhoneNumber(), userRequest.getRole(),userRequest.getPassword(), null, null);
+		
+		String name = user.getEmail();
+		User obj1 = userrepository.findByEmail(name).orElse(null);
+		System.out.println(obj1);
+		if (obj1 == null) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userrepository.save(user);
+			return "Registration Successfully ";
+		} else {
+			return "This Email is Already Registered.";
+		}
 
 	}
 
@@ -120,7 +134,7 @@ public class UserServiceImpl implements UserService {
 			userrepository.deleteById(id);
 		} else {
 			throw new UserNotFoundException("Ticket with ID " + id + " not found !!");
-		}
+		}  
 
 	}
 
@@ -156,5 +170,18 @@ public class UserServiceImpl implements UserService {
 	    
 	    return "User Logged In Successfully!!";
 	}
+	
+	public String getRoles(String username) {
+		User obj2 = userrepository.findByEmail(username).orElse(null);
+		if (obj2 != null) {
+			return obj2.getRoles();
+		}
+		return "Not Found";
+	}
+	
+	@Override
+	 public List<UserIdNameProjection> fetchUserIdsAndNames() {
+	        return userrepository.findIdAndNames();
+	    }
 
 }

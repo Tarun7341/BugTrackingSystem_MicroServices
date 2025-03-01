@@ -51,7 +51,7 @@ public class BugTrackerSpringRestApplicationTests {
 		project.setDescription("Test Description");
 		project.setUserId(userIds);
 
-		projectRequest = new ProjectRequest(1, "Test Project", "Test Description", userIds);
+	//	projectRequest = new ProjectRequest(1, "Test Project", "Test Description", userIds);
 	}
 
 	@Test
@@ -103,7 +103,7 @@ public class BugTrackerSpringRestApplicationTests {
 
 	@Test
 	void testAddNew() {
-		projectService.addNew(projectRequest);
+		projectService.addNew(project);
 
 		verify(projectRepository, times(1)).save(any(Project.class));
 	}

@@ -207,40 +207,40 @@ public class TicketServiceImpl implements TicketService {
 //	}
 	
 	
-	public void addNew(TicketRequest ticketRequest) {
-	    List<Integer> userIds = ticketRequest.getUserId();
-	    List<User> users = new ArrayList<>();
-
-	    // Validate each user ID in the list
-	    for (Integer userId : userIds) {
-	        try {
-	            User user = userClient.getUserById(userId);
-	            users.add(user);
-	        } catch (FeignException.NotFound e) {
-	            throw new ResourceNotFoundException("User does not exist with Id: " + userId);
-	        }
-	    }
-
-	    // Check if project exists
-	    try {
-	        Project project = projectClient.getProjectById(ticketRequest.getProjectId());
-	    } catch (FeignException.NotFound e) {
-	        throw new ResourceNotFoundException("Project does not exist with Id: " + ticketRequest.getProjectId());
-	    }
-
-	    // Create the Ticket object and set its attributes
-	    Ticket ticket = Ticket.build(
-	        ticketRequest.getId(),
-	        ticketRequest.getTitle(),
-	        ticketRequest.getDescription(),
-	        ticketRequest.getStatus(),
-	        ticketRequest.getPriority(),
-	        ticketRequest.getType(),
-	        ticketRequest.getSeverity(),
-	        ticketRequest.getStepstoReproduce(),
-	        ticketRequest.getProjectId(),
-	        userIds // Pass the list of user IDs here
-	    );
+	public void addNew(Ticket ticket) {
+//	    List<Integer> userIds = ticketRequest.getUserId();
+//	    List<User> users = new ArrayList<>();
+//
+//	    // Validate each user ID in the list
+//	    for (Integer userId : userIds) {
+//	        try {
+//	            User user = userClient.getUserById(userId);
+//	            users.add(user);
+//	        } catch (FeignException.NotFound e) {
+//	            throw new ResourceNotFoundException("User does not exist with Id: " + userId);
+//	        }
+//	    }
+//
+//	    // Check if project exists
+//	    try {
+//	        Project project = projectClient.getProjectById(ticketRequest.getProjectId());
+//	    } catch (FeignException.NotFound e) {
+//	        throw new ResourceNotFoundException("Project does not exist with Id: " + ticketRequest.getProjectId());
+//	    }
+//
+//	    // Create the Ticket object and set its attributes
+//	    Ticket ticket = Ticket.build(
+//	        ticketRequest.getId(),
+//	        ticketRequest.getTitle(),
+//	        ticketRequest.getDescription(),
+//	        ticketRequest.getStatus(),
+//	        ticketRequest.getPriority(),
+//	        ticketRequest.getType(),
+//	        ticketRequest.getSeverity(),
+//	        ticketRequest.getStepstoReproduce(),
+//	        ticketRequest.getProjectId(),
+//	        userIds // Pass the list of user IDs here
+//	    );
 
 	    // Save the Ticket object to the repository
 	    ticketrepository.save(ticket);

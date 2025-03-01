@@ -53,8 +53,8 @@ public class TicketController {
 
 	// Endpoint to add a new ticket
 	@PostMapping("/addNew")
-	public String addNewTicket(@RequestBody @Valid TicketRequest ticketRequest) {
-		ticketservice.addNew(ticketRequest);
+	public String addNewTicket(@RequestBody Ticket ticket) {
+		ticketservice.addNew(ticket);
 		return "Ticket Added Successfully";
 	}
 	

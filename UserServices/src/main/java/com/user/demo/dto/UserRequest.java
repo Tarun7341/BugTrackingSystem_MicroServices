@@ -42,8 +42,8 @@ public class UserRequest {
     private String phoneNumber;
 
     //@NotBlank(message = "Role is mandatory")
-    @Enumerated(EnumType.STRING)
-    private Roles role;
+    
+    private String role;
     
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$")
     private String password;
