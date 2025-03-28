@@ -1,4 +1,5 @@
-
+<html>
+    <body>
     <h1>Bug Tracking System</h1>
     <p><strong>A comprehensive Java Full-Stack application for efficient bug tracking and management, leveraging modern web development technologies. 🚀</strong></p>
     
@@ -37,4 +38,5 @@
         <li>Detailed bug reports with filtering and search options.</li>
         <li>Activity logs for all user actions.</li>
     </ul>
-
+</body>
+</html>
